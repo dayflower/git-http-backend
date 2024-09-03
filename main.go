@@ -10,6 +10,15 @@ import (
 
 func init() {
 	flag.BoolVar(&server.DefaultConfig.RequireAuth, "require_auth", server.DefaultConfig.RequireAuth, "enable basic auth")
+	flag.BoolFunc("read_only", "make git repos read only", func(s string) error {
+		switch s {
+		case "true":
+			server.DefaultConfig.ReceivePack = false
+		default:
+			server.DefaultConfig.ReceivePack = true
+		}
+		return nil
+	})
 	flag.StringVar(&server.DefaultConfig.AuthPassEnvVar, "auth_pass_env_var", server.DefaultConfig.AuthPassEnvVar, "set an env var to provide the basic auth pass as")
 	flag.StringVar(&server.DefaultConfig.AuthUserEnvVar, "auth_user_env_var", server.DefaultConfig.AuthUserEnvVar, "set an env var to provide the basic auth user as")
 	flag.StringVar(&server.DefaultConfig.DefaultEnv, "default_env", server.DefaultConfig.DefaultEnv, "set the default env")

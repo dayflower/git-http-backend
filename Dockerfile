@@ -9,9 +9,9 @@ ARG OS_VARIANT=-bookworm
 
 ARG GIT_VERSION=2.46.0
 
-ARG TARGETOS TARGETARCH
-
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}${OS_VARIANT} AS build
+
+ARG TARGETOS TARGETARCH
 
 WORKDIR /src
 
@@ -22,7 +22,7 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
 
 RUN --mount=type=cache,target=/go/pkg/mod/ \
     --mount=type=bind,target=. \
-    CGO_ENABLED=1 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /bin/server .
+    CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /bin/server .
 
 #### Package stage
 

@@ -33,8 +33,6 @@ Flags
 
 ```
 Usage of ./git-http-backend:
-  -require_auth bool
-        set require auth enable/disable
   -auth_pass_env_var string
         set an env var to provide the basic auth pass as
   -auth_user_env_var string
@@ -45,6 +43,10 @@ Usage of ./git-http-backend:
         set git bin path (default "/usr/bin/git")
   -project_root string
         set project root (default "/tmp")
+  -read_only
+        make git repos read only
+  -require_auth
+        enable basic auth
   -route_prefix string
         prepend a regex prefix to each git-http-backend route
   -server_address string

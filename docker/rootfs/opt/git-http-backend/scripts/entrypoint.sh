@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+#set -o xtrace
+
+GIT_BIN_PATH=${GIT_BIN_PATH:-/opt/bitnami/git/bin/git}
+SERVER_ADDRESS=${SERVER_ADDRESS:-:8080}
+PROJECT_ROOT=${PROJECT_ROOT:-/repositories}
+READ_ONLY=${READ_ONLY:-}
+REQUIRE_AUTH=${REQUIRE_AUTH:-}
+AUTH_USERNAME=${AUTH_USERNAME:-}
+AUTH_PASSWORD=${AUTH_PASSWORD:-}
+
+OPT_GIT_BIN_PATH=${GIT_BIN_PATH:+-git_bin_path=$GIT_BIN_PATH}
+OPT_SERVER_ADDRESS=${SERVER_ADDRESS:+-server_address=$SERVER_ADDRESS}
+OPT_PROJECT_ROOT=${PROJECT_ROOT:+-project_root=$PROJECT_ROOT}
+OPT_READ_ONLY=${READ_ONLY:+-read_only}
+OPT_REQUIRE_AUTH=${REQUIRE_AUTH:+-require_auth}
+OPT_AUTH_USER=${AUTH_USERNAME:+-auth_user_env_var=$AUTH_USERNAME}
+OPT_AUTH_PASS=${AUTH_PASSWORD:+-auth_pass_env_var=$AUTH_PASSWORD}
+
+exec /usr/bin/git-http-backend \
+    $OPT_GIT_BIN_PATH \
+    $OPT_SERVER_ADDRESS \
+    $OPT_PROJECT_ROOT \
+    $OPT_READ_ONLY \
+    $OPT_REQUIRE_AUTH \
+    $OPT_AUTH_USER \
+    $OPT_AUTH_PASS
